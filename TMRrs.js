@@ -49,7 +49,7 @@
             const expansion = expansions[lastWord];
 
             if (expansion) {
-                const expandedText = expansion.replace('{EDIT WITH NAME}', document.querySelector("#bug-header > div.flex > div:nth-child(4) > span").textContent);
+                const expandedText = expansion.replace('{EDIT WITH NAME}', document.querySelector("#bug-header > div.flex > div:nth-child(4) > span").outerText);
                 previewElement.style.display = 'block';
                 previewElement.textContent = expandedText;
             } else {
@@ -70,7 +70,7 @@
                 const expansion = expansions[lastWord];
 
                 if (expansion) {
-                    const expandedText = expansion.replace('{EDIT WITH NAME}', document.querySelector("#bug-header > div.flex > div:nth-child(4) > span").textContent);
+                    const expandedText = expansion.replace('{EDIT WITH NAME}', document.querySelector("#bug-header > div.flex > div:nth-child(4) > span").outerText);
                     const newText = `${text.slice(0, caretPosition - lastWord.length)}${expandedText}${text.slice(caretPosition)}`;
 
                     activeElement.value = newText;
