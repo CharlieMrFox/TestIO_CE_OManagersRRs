@@ -19,7 +19,7 @@
         'lol': 'Laugh out loud'
     };
 
-     // Create a preview element
+    // Create a preview element
     const previewElement = document.createElement('div');
     previewElement.id = 'text-expander-preview';
     previewElement.style.cssText = `
@@ -48,8 +48,13 @@
             const lastWord = text.slice(0, caretPosition).split(' ').pop();
             const expansion = expansions[lastWord];
 
-            previewElement.style.display = expansion ? 'block' : 'none';
-            previewElement.textContent = expansion || '';
+            if (expansion) {
+                const expandedText = expansion.replace('{EDIT WITH NAME}', document.querySelector("#bug-header > div.flex > div:nth-child(4) > span").textContent);
+                previewElement.style.display = 'block';
+                previewElement.textContent = expandedText;
+            } else {
+                previewElement.style.display = 'none';
+            }
         }
     });
 
@@ -65,12 +70,12 @@
                 const expansion = expansions[lastWord];
 
                 if (expansion) {
-                    const expandedText = `${text.slice(0, caretPosition - lastWord.length)}${expansion}${text.slice(caretPosition)}`;
+                    const expandedText = expansion.replace('{EDIT WITH NAME}', document.querySelector("#bug-header > div.flex > div:nth-child(4) > span").textContent);
+                    const newText = `${text.slice(0, caretPosition - lastWord.length)}${expandedText}${text.slice(caretPosition)}`;
 
-                    activeElement.value = expandedText;
-                    activeElement.setSelectionRange(caretPosition - lastWord.length + expansion.length, caretPosition - lastWord.length + expansion.length);
+                    activeElement.value = newText;
+                    activeElement.setSelectionRange(caretPosition - lastWord.length + expandedText.length, caretPosition - lastWord.length + expandedText.length);
 
-                    // Adjust scroll position after expanding
                     const scrollTop = activeElement.scrollTop;
                     activeElement.scrollTop = scrollTop + activeElement.scrollHeight - activeElement.clientHeight;
 
