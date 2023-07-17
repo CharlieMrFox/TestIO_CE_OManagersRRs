@@ -1,28 +1,4 @@
-// ==UserScript==
-// @name         Onboarding Managers Rejection Reasons
-// @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  Expand text abbreviations link to specific rejection reasons into their full forms.
-// @author       Test IO Community Education Team
-// @match        https://onboardingmanager.test.io/managers/onboarding_submissions/*
-// @icon         https://test.io/content/dam/test-io/test_io_logo1.svg
-// @grant        none
-// ==/UserScript==
-
-(function() {
-    'use strict';
-
-    // Define your text expansions
-    const expansions = {
-        'susp': 'Hi {EDIT WITH NAME}, we noticed that this report is not your own work. \n\n We reject this attempt and give you another chance to do it yourself and prove that you understand our concepts. \n\n Please take a NEW BUG via the ❝Show new bug❞ button, which is located at the bottom, and describe it in your own words. Why is this important? Only when you understand how to report bugs the quality of your bug reports will meet the criteria required to work on our platform. \n\n Thank you.',
-        'btw': 'By the way',
-        'lol': 'Laugh out loud'
-    };
-
-    // Create a preview element
-    const previewElement = document.createElement('div');
-    previewElement.id = 'text-expander-preview';
-    previewElement.style.cssText = `
+!function(){let e=document.createElement("div");function t(){let e=document.querySelector("#bug-header > div.flex > div:nth-child(4) > span");return e?e.textContent:""}e.id="text-expander-preview",e.style.cssText=`
         position: fixed;
         top: 50%;
         left: 50%;
@@ -35,57 +11,4 @@
         display: none;
         white-space: pre-wrap;
         z-index: 9999; /* Increase the z-index value */
-    `;
-    document.documentElement.appendChild(previewElement);
-
-    // Listen for input changes
-    document.addEventListener('input', function(event) {
-        const activeElement = document.activeElement;
-
-        if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
-            const caretPosition = activeElement.selectionStart;
-            const text = activeElement.value;
-            const lastWord = text.slice(0, caretPosition).split(' ').pop();
-            const expansion = expansions[lastWord];
-
-            if (expansion) {
-                const expandedText = expansion.replace('{EDIT WITH NAME}', document.querySelector("#bug-header > div.flex > div:nth-child(4) > span").outerText);
-                previewElement.style.display = 'block';
-                previewElement.textContent = expandedText;
-            } else {
-                previewElement.style.display = 'none';
-            }
-        }
-    });
-
-    // Listen for keydown events
-    document.addEventListener('keydown', function(event) {
-        if (event.key === ' ' && !event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey) {
-            const activeElement = document.activeElement;
-
-            if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
-                const caretPosition = activeElement.selectionStart;
-                const text = activeElement.value;
-                const lastWord = text.slice(0, caretPosition).split(' ').pop();
-                const expansion = expansions[lastWord];
-
-                if (expansion) {
-                    const expandedText = expansion.replace('{EDIT WITH NAME}', document.querySelector("#bug-header > div.flex > div:nth-child(4) > span").outerText);
-                    const newText = `${text.slice(0, caretPosition - lastWord.length)}${expandedText}${text.slice(caretPosition)}`;
-
-                    activeElement.value = newText;
-                    activeElement.setSelectionRange(caretPosition - lastWord.length + expandedText.length, caretPosition - lastWord.length + expandedText.length);
-
-                    const scrollTop = activeElement.scrollTop;
-                    activeElement.scrollTop = scrollTop + activeElement.scrollHeight - activeElement.clientHeight;
-
-                    previewElement.style.display = 'none';
-
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-            }
-        }
-    });
-
-})();
+    `,document.documentElement.appendChild(e),document.addEventListener("input",function(l){let n=document.activeElement;if("INPUT"===n.tagName||"TEXTAREA"===n.tagName){let i=n.selectionStart,a=n.value,o=a.slice(0,i).split(" ").pop(),s=expansions[o];if(s){let c=s.replace("{EDIT WITH NAME}",t());e.style.display="block",e.textContent=c}else e.style.display="none"}}),document.addEventListener("keydown",function(l){if(" "===l.key&&!l.ctrlKey&&!l.shiftKey&&!l.altKey&&!l.metaKey){let n=document.activeElement;if("INPUT"===n.tagName||"TEXTAREA"===n.tagName){let i=n.selectionStart,a=n.value,o=a.slice(0,i).split(" ").pop(),s=expansions[o];if(s){let c=s.replace("{EDIT WITH NAME}",t()),r=`${a.slice(0,i-o.length)}${c}${a.slice(i)}`;n.value=r,n.setSelectionRange(i-o.length+c.length,i-o.length+c.length);let d=n.scrollTop;n.scrollTop=d+n.scrollHeight-n.clientHeight,e.style.display="none",l.preventDefault(),l.stopPropagation()}}}}),document.addEventListener("DOMContentLoaded",function(e){})}();
