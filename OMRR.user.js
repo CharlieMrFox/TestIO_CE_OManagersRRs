@@ -1,6 +1,7 @@
 // ==UserScript==
 // @name         OMRR
 // @namespace    Test IO – Education Team – Onboarding
+// @author       Charlie
 // @version      1.0
 // @description  Expand text abbreviations link to the official specific rejection reasons for Test IO Onboarding tickets into their full forms.
 // @icon         https://test.io/content/dam/test-io/test_io_logo1.svg
