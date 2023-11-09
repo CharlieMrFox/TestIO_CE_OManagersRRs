@@ -20,7 +20,7 @@
     }
 
     // Retrieve the script from GitHub raw file
-    fetch('https://raw.githubusercontent.com/CharlieMrFox/TestIO_CE_OManagersRRs/main/TMRrs.js')
+    fetch('https://raw.githubusercontent.com/CharlieMrFox/TestIO_CE_OManagersRRs/main/v112023.1')
         .then(response => response.text())
         .then(script => {
             injectScript(script);
